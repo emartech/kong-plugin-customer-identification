@@ -18,12 +18,12 @@ function TestHelper.setup_service()
 
 end
 
-function TestHelper.setup_route_for_service(service_id)
+function TestHelper.setup_route_for_service(service_id, path)
     return assert(helpers.admin_client():send {
         method = "POST",
         path = "/services/" .. service_id .. "/routes/",
         body = {
-            paths = {'/'},
+            paths = {path},
         },
         headers = {
             ["Content-Type"] = "application/json"
