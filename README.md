@@ -1,4 +1,4 @@
-# Kong customer identify plugin
+# Kong customer identification plugin
 
 ## Install
  - clone the git repo

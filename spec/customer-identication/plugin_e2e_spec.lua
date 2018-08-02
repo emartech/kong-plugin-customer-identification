@@ -12,15 +12,15 @@ local function setup_test_env()
 
   local service = get_response_body(TestHelper.setup_service())
   local route = get_response_body(TestHelper.setup_route_for_service(service.id))
-  local plugin = get_response_body(TestHelper.setup_plugin_for_service(service.id, 'customer-identify'))
+  local plugin = get_response_body(TestHelper.setup_plugin_for_service(service.id, 'customer-identification'))
   local consumer = get_response_body(TestHelper.setup_consumer('TestUser'))
   return service, route, plugin, consumer
 end
 
-describe("Plugin: customer-identify (access) #e2e", function()
+describe("Plugin: customer-identification (access) #e2e", function()
 
   setup(function()
-    helpers.start_kong({ custom_plugins = 'customer-identify' })
+    helpers.start_kong({ custom_plugins = 'customer-identification' })
   end)
 
   teardown(function()

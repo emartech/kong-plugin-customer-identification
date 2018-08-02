@@ -1,7 +1,7 @@
 
-local plugin_handler = require "kong.plugins.customer-identify.handler"
+local plugin_handler = require "kong.plugins.customer-identification.handler"
 
-describe("customer-identify plugin", function()
+describe("customer-identification plugin", function()
   local old_ngx = _G.ngx
   -- local stubbed_ndx = nil
   local mock_config

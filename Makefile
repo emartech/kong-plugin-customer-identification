@@ -41,7 +41,7 @@ e2e: ## Run end to end tests
 
 dev-env: ## Creates API (testapi) and consumer (TestUser)
 	bash -c "curl -i -X POST --url http://localhost:8001/apis/ --data 'name=testapi' --data 'upstream_url=http://mockbin.org/request' --data 'uris=/'"
-	bash -c "curl -i -X POST --url http://localhost:8001/apis/testapi/plugins/ --data 'name=customer-identify'"
+	bash -c "curl -i -X POST --url http://localhost:8001/apis/testapi/plugins/ --data 'name=customer-identification'"
 
 ping: ## Pings kong on localhost:8000
 	bash -c "curl -i http://localhost:8000"
