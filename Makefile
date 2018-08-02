@@ -40,8 +40,9 @@ e2e: ## Run end to end tests
 	docker-compose down
 
 dev-env: ## Creates API (testapi) and consumer (TestUser)
-	bash -c "curl -i -X POST --url http://localhost:8001/apis/ --data 'name=testapi' --data 'upstream_url=http://mockbin.org/request' --data 'uris=/'"
-	bash -c "curl -i -X POST --url http://localhost:8001/apis/testapi/plugins/ --data 'name=customer-identification'"
+	bash -c "curl -i -X POST --url http://localhost:8001/services/ --data 'name=testapi' --data 'url=http://mockbin.org/request'"
+	bash -c "curl -i -X POST --url http://localhost:8001/services/testapi/routes/ --data 'paths[]=/api/v2'"
+	bash -c "curl -i -X POST --url http://localhost:8001/services/testapi/plugins/ --data 'name=customer-identification'"
 
 ping: ## Pings kong on localhost:8000
 	bash -c "curl -i http://localhost:8000"
