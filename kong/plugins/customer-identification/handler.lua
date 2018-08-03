@@ -33,6 +33,7 @@ function CustomerIdentificationHandler:access(conf)
         return nil
     end
 
+    return nil
 end
 
 return CustomerIdentificationHandler

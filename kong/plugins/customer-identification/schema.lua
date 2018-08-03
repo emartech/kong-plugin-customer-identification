@@ -1,4 +1,4 @@
 return {
-  no_consumer = true,
-  fields = {}
+    no_consumer = true,
+    fields = {}
 }
