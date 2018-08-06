@@ -12,8 +12,14 @@ function CustomerIdentificationHandler:access(conf)
     CustomerIdentificationHandler.super.access(self)
 
     local headers = ngx.req.get_headers()
+
+    if headers[conf['target_header']] then
+        return nil
+    end
+
     for _, source_header in ipairs(conf['source_headers']) do
         if headers[source_header] then
+            ngx.req.set_header(conf['target_header'], headers[source_header])
             return nil
         end
     end
