@@ -1,9 +1,9 @@
 package = "kong-plugin-customer-identification"
-version = "1.0.0-1"
+version = "1.0.1-1"
 supported_platforms = {"linux", "macosx"}
 source = {
   url = "git+https://github.com/emartech/kong-plugin-customer-identification.git",
-  tag = "1.0.0"
+  tag = "1.0.1"
 }
 description = {
   summary = "Customer identifier plugin for Kong API gateway",
