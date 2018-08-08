@@ -35,3 +35,8 @@ kong-database:
     - POSTGRES_USER=kong
     - POSTGRES_DB=kong
     - POSTGRES_PASSWORD=kong
+
+mockbin:
+  image: mashape/mockbin
+  ports:
+    - 8080
