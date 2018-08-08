@@ -21,6 +21,11 @@ build: ## Rebuild containers
 
 complete-restart: clear-db down up    ## Clear DB and restart containers
 
+complete-restart-d:  ## Clear DB and restart containers
+	bash -c "rm -rf .docker"
+	docker-compose down
+	docker-compose up
+
 publish: ## Build and publish plugin to luarocks
 	docker-compose run kong bash -c "cd /kong-plugins && chmod +x publish.sh && ./publish.sh"
 
@@ -40,9 +45,9 @@ e2e: ## Run end to end tests
 	docker-compose down
 
 dev-env: ## Creates API (testapi) and consumer (TestUser)
-	bash -c "curl -i -X POST --url http://localhost:8001/services/ --data 'name=testapi' --data 'url=http://mockbin.org/request'"
-	bash -c "curl -i -X POST --url http://localhost:8001/services/testapi/routes/ --data 'paths[]=/api/v2'"
-	bash -c "curl -i -X POST --url http://localhost:8001/services/testapi/plugins/ --data 'name=customer-identification'"
+	bash -c "curl -i -X POST --url http://localhost:8001/services/ --data 'name=testapi' --data 'protocol=http' --data 'host=mockbin' --data 'path=/request'"
+	bash -c "curl -i -X POST --url http://localhost:8001/services/testapi/routes/ --data 'paths[]=/'"
+	bash -c "curl -i -X POST --url http://localhost:8001/services/testapi/plugins/ --data 'name=customer-identification' --data 'config.source_headers=X-Suite-CustomerId' --data 'config.uri_matchers=/api/v2/internal/(.-)/' --data 'config.target_header=X-Suite-CustomerId'"
 
 ping: ## Pings kong on localhost:8000
 	bash -c "curl -i http://localhost:8000"
