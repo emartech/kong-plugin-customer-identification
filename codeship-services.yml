@@ -3,6 +3,7 @@ kong:
   dockerfile: Dockerfile
   depends_on:
     - kong-database
+    - mockbin
   environment:
     - KONG_DATABASE=postgres
     - KONG_PG_HOST=kong-database
