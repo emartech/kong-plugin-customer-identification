@@ -8,7 +8,7 @@ local function get_response_body(response)
 end
 
 local function setup_test_env(conf)
-    helpers.dao:truncate_tables()
+    helpers.db:truncate()
 
     local service = get_response_body(TestHelper.setup_service())
     local route = get_response_body(TestHelper.setup_route_for_service(service.id, '/anything'))
