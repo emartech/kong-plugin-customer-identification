@@ -20,7 +20,7 @@ end
 describe("Plugin: customer-identification (access) #e2e", function()
 
     setup(function()
-        helpers.start_kong({ custom_plugins = 'customer-identification' })
+        helpers.start_kong({ plugins = 'customer-identification' })
     end)
 
     teardown(function()
