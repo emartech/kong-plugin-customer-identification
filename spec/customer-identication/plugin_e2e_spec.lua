@@ -119,6 +119,36 @@ describe("Plugin: customer-identification (access) #e2e", function()
 
         end)
 
+        context("when the target header is not present on request but source_query_parameter can be found in query string", function()
+            local service, route, plugin, consumer
+            local local_conf = {
+                source_headers = { "other-header" },
+                uri_matchers = {},
+                target_header = "anything",
+                source_query_parameter = "other_query_param"
+            }
+
+            before_each(function()
+                service, route, plugin, consumer = setup_test_env(local_conf)
+            end)
+
+            it("should set the target header from query string", function()
+                local res = assert(helpers.proxy_client():send {
+                    method = "GET",
+                    path = "/anything/something?other_query_param=23456789",
+                    headers = {
+                        ["Host"] = "test1.com",
+                    }
+                })
+
+                local response = assert.res_status(200, res)
+                local body = cjson.decode(response)
+
+                assert.is_equal('23456789', body.headers["anything"])
+            end)
+
+        end)
+
     end)
 
 end)

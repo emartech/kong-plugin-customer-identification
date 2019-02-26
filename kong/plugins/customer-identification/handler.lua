@@ -11,7 +11,7 @@ end
 function CustomerIdentificationHandler:access(conf)
     CustomerIdentificationHandler.super.access(self)
 
-    local headers = ngx.req.get_headers()
+    local headers = kong.request.get_headers()
 
     if headers[conf['target_header']] then
         return nil
@@ -19,15 +19,21 @@ function CustomerIdentificationHandler:access(conf)
 
     for _, source_header in ipairs(conf['source_headers']) do
         if headers[source_header] then
-            ngx.req.set_header(conf['target_header'], headers[source_header])
+            kong.service.request.set_header(conf['target_header'], headers[source_header])
             return nil
         end
+    end
+
+    local customer_id = kong.request.get_query()[conf['source_query_parameter']]
+    if customer_id then
+        kong.service.request.set_header(conf['target_header'], customer_id)
+        return nil
     end
 
     for _, pattern in ipairs(conf['uri_matchers']) do
         local customer_id = string.match(ngx.var.request_uri, pattern)
         if customer_id then
-            ngx.req.set_header(conf['target_header'], customer_id)
+            kong.service.request.set_header(conf['target_header'], customer_id)
             return nil
         end
     end
