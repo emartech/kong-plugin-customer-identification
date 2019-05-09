@@ -6,7 +6,8 @@ return {
         source_headers = { type = "array", default={} },
         uri_matchers = { type = "array", default={} },
         target_header = { type = "string", required = true },
-        source_query_parameter = { type = "string" }
+        source_query_parameter = { type = "string" },
+        log_header_mismatch_with = { type = "string" }
     },
     self_check = function(schema, plugin_t, dao, is_update)
         local source_headers_list = type(plugin_t.source_headers) == "table" and plugin_t.source_headers or {}

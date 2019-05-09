@@ -12,7 +12,8 @@ description = {
 }
 dependencies = {
   "lua ~> 5.1",
-  "classic 0.1.0-1"
+  "classic 0.1.0-1",
+  "kong-lib-logger 0.4.0-1"
 }
 build = {
   type = "builtin",

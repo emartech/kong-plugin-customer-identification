@@ -149,6 +149,35 @@ describe("Plugin: customer-identification (access) #e2e", function()
 
         end)
 
+        context("when log_header_mismatch_with is configured", function()
+            local service, route, plugin, consumer
+            local local_conf = {
+                source_headers = { "other-anything" },
+                uri_matchers = { "/anything/(.-)/" },
+                target_header = "anything",
+                log_header_mismatch_with = "anything2"
+            }
+
+            before_each(function()
+                service, route, plugin, consumer = setup_test_env(local_conf)
+            end)
+
+            it("should work fine", function()
+                local res = assert(helpers.proxy_client():send {
+                    method = "GET",
+                    path = "/anything/something/",
+                    headers = {
+                        ["Host"] = "test1.com",
+                        ["other-anything"] = '23456789',
+                        ["anything2"] = '444555666',
+                    }
+                })
+
+                assert.res_status(200, res)
+            end)
+
+        end)
+
     end)
 
 end)
