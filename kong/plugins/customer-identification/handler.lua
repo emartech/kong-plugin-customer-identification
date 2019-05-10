@@ -12,27 +12,31 @@ end
 local function access(conf)
     local headers = kong.request.get_headers()
 
-    if headers[conf['target_header']] then
+    if headers[conf.target_header] then
         return
     end
 
-    for _, source_header in ipairs(conf['source_headers']) do
+    for _, source_header in ipairs(conf.source_headers) do
         if headers[source_header] then
-            kong.service.request.set_header(conf['target_header'], headers[source_header])
+            kong.service.request.set_header(conf.target_header, headers[source_header])
             return
         end
     end
 
-    local customer_id = kong.request.get_query()[conf['source_query_parameter']]
-    if customer_id then
-        kong.service.request.set_header(conf['target_header'], customer_id)
-        return
+    if conf.source_query_parameter then
+        local customer_id = kong.request.get_query_arg(conf.source_query_parameter)
+
+        if customer_id then
+            kong.service.request.set_header(conf.target_header, customer_id)
+            return
+        end
     end
 
-    for _, pattern in ipairs(conf['uri_matchers']) do
-        local customer_id = string.match(ngx.var.request_uri, pattern)
+    for _, pattern in ipairs(conf.uri_matchers) do
+        local customer_id = string.match(kong.request.get_path(), pattern)
+
         if customer_id then
-            kong.service.request.set_header(conf['target_header'], customer_id)
+            kong.service.request.set_header(conf.target_header, customer_id)
             return
         end
     end
